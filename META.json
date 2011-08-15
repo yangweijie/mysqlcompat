@@ -1,0 +1,40 @@
+{
+   "name": "mysqlcompat",
+   "abstract": "MySQL compatibility functions",
+   "description": "A reimplemenation of as many MySQL functions as possible in PostgreSQL, as an aid to porting",
+   "version": "0.0.1",
+   "release_status": "unstable",
+   "maintainer": [
+      "Marti Raudsepp <marti@juffo.org>"
+   ],
+   "license": "unrestricted",
+   "provides": {
+      "mysqlcompat": {
+         "abstract": "MySQL compatibility functions",
+         "file": "sql/all.sql",
+         "docfile": "doc/mysqlcompat.md",
+         "version": "0.0.1"
+      }
+   },
+   "resources": {
+      "bugtracker": {
+         "web": "https://github.com/intgr/mysqlcompat/issues"
+      },
+      "repository": {
+        "url":  "git://github.com/intgr/mysqlcompat.git",
+        "web":  "https://github.com/intgr/mysqlcompat",
+        "type": "git"
+      }
+   },
+   "generated_by": "Marti Raudsepp",
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "http://pgxn.org/meta/spec.txt"
+   },
+   "tags": [
+      "mysql",
+      "compatibility",
+      "conversion",
+      "functions"
+   ]
+}
