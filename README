@@ -41,7 +41,7 @@ database, eg:
 
 Or, to install a particular subset of functions:
 
-  psql -f datetime.sql <dbname>
+  psql -f sql_bits/datetime.sql <dbname>
 
 Or, if you only want to install a particular function, just
 copy and paste it into psql directly, taking care to install any
@@ -58,10 +58,10 @@ phpPgAdmin (phppgadmin.sf.net).
 Uninstall
 ---------
 
-The uninstall.sql script contains drop commands for every object
-in this library.  To drop everything for example, run:
+The mysqlcompat_uninstall.sql script contains drop commands for every object in
+this library.  To drop everything for example, run:
 
-  psql -f uninstall.sql <dbname>
+  psql -f sql/mysqlcompat_uninstall.sql <dbname>
 
 Then, if you have no further need for the PL/PgSQL language handler
 you can drop it as follows:
