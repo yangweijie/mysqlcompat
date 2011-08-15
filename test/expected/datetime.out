@@ -1,0 +1,32 @@
+\set ECHO 0
+SELECT to_days('0001-01-01');
+ to_days 
+---------
+     366
+(1 row)
+
+SELECT from_days(1);
+   from_days   
+---------------
+ 01-02-0001 BC
+(1 row)
+
+SELECT to_days('2011-08-15');
+ to_days 
+---------
+  734729
+(1 row)
+
+SELECT from_days(734729);
+ from_days  
+------------
+ 08-15-2011
+(1 row)
+
+SELECT from_days(to_days(now()::date)) = now()::date;
+ ?column? 
+----------
+ t
+(1 row)
+
+ROLLBACK;
