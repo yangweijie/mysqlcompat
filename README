@@ -2,7 +2,8 @@ MySQL Compatibility Functions
 =============================
 
 Authors: Chris Kings-Lynne, Gavin Sherry & Others
-Contributor: Michael Fuhr
+Contributors: Michael Fuhr, Robert Treat
+Current maintainer: Marti Raudsepp
 
 Introduction
 ------------
@@ -21,7 +22,7 @@ that rely heavily on certain MySQL functions.
 Versions of PostgreSQL supported
 --------------------------------
 
-This package has been tested on PostgreSQL 8.1.x, 8.2.x, and 8.3.x.
+This package has been tested on PostgreSQL 8.2.x through 9.1.x
 
 Installation
 ------------
