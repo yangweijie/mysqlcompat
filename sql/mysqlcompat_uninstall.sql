@@ -115,7 +115,7 @@ DROP FUNCTION get_format(text, text);
 DROP FUNCTION from_unixtime(bigint, text);
 DROP FUNCTION from_unixtime(bigint);
 DROP FUNCTION from_days(integer);
-DROP FUNCTION format(double precision, integer);
+DROP FUNCTION format(numeric, integer);
 DROP FUNCTION find_in_set(text, text);
 DROP FUNCTION field(text, text, text, text, text);
 DROP FUNCTION field(text, text, text, text);

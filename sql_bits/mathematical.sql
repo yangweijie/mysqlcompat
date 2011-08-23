@@ -87,10 +87,20 @@ RETURNS bigint AS $$
 $$ IMMUTABLE STRICT LANGUAGE plpgsql;
 
 -- FORMAT()
-CREATE OR REPLACE FUNCTION format(double precision, integer)
+-- FIXME: Only handles numbers with integer part up to 21 digits
+--
+-- MySQL has some bugs with long numbers, but they're not worth replicating:
+-- format(9999999999999999999999999999999999999999999999999999999999999999, 10)
+--  --> last group has four nines!
+-- format(9999999999999999999999999999999999999999999999999999999999999999999999999, 1);
+--  --> last group has five nines and no decmial zero
+CREATE OR REPLACE FUNCTION format(numeric, integer)
 RETURNS text AS $$
-  SELECT pg_catalog.to_char($1, 'FM999,999,999,999,999,999,999.' 
-    operator(pg_catalog.||) pg_catalog.repeat('0', $2))
+  SELECT pg_catalog.to_char(pg_catalog.round($1, $2), 'FM999,999,999,999,999,999,990'
+    operator(pg_catalog.||)
+      case when $2 > 0 then
+        '.' operator(pg_catalog.||) pg_catalog.repeat('0', $2)
+      else '' end)
 $$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- LN(), LOG()
