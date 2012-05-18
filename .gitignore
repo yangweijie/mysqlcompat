@@ -1,4 +1,4 @@
-sql/mysqlcompat--0.0.1.sql
+sql/mysqlcompat--0.0.2.sql
 sql/mysqlcompat.sql
 results/
 regression.diffs

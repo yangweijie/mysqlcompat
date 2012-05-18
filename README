@@ -22,7 +22,7 @@ that rely heavily on certain MySQL functions.
 Versions of PostgreSQL supported
 --------------------------------
 
-This package has been tested on PostgreSQL 8.2.x through 9.1.x
+This package has been tested on PostgreSQL 8.2.x through 9.2.x
 
 Installation
 ------------

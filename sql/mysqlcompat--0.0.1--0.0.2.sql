@@ -1,0 +1,2 @@
+-- Dummy file. There were no functional changes in 0.0.2, just workaround for
+-- the new COLLATION reserved keyword.

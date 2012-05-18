@@ -36,8 +36,12 @@ RETURNS integer AS $$
 $$ IMMUTABLE LANGUAGE SQL;
 
 -- COLLATION()
--- This is a bit dodgy as it just returns the database collation
-CREATE OR REPLACE FUNCTION collation(text)
+-- In PostgreSQL 9.1 and earlier, just return the database collation
+-- In 9.2 COLLATION is a reserved keyword, so this function cannot provide
+-- compatbility anyway. Please use COLLATION FOR(x) instead of COLLATION(x)
+--
+-- Not sure why this calls lower() -- collation names are case sensitive in Postgres
+CREATE OR REPLACE FUNCTION "collation"(text)
 RETURNS text AS $$
   SELECT pg_catalog.lower(setting) from pg_catalog.pg_settings where name='lc_collate'
 $$ IMMUTABLE LANGUAGE SQL;
