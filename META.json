@@ -2,17 +2,17 @@
    "name": "mysqlcompat",
    "abstract": "MySQL compatibility functions",
    "description": "A reimplemenation of as many MySQL functions as possible in PostgreSQL, as an aid to porting",
-   "version": "0.0.2",
-   "release_status": "unstable",
+   "version": "0.0.3",
+   "release_status": "stable",
 
-   "maintainer": "Marti Raudsepp <marti@juffo.org>",
-   "generated_by": "Marti Raudsepp <marti@juffo.org>",
+   "maintainer": "Marc G Fournier <marc.fournier@2ndquadrant.com>",
+   "generated_by": "Marc G Fournier <marc.fournier@2ndquadrant.com>",
    "license": "unrestricted",
    "provides": {
       "mysqlcompat": {
          "abstract": "MySQL compatibility functions",
          "file": "all.sql",
-         "version": "0.0.2"
+         "version": "0.0.3"
       }
    },
    "resources": {
@@ -20,8 +20,8 @@
          "web": "https://github.com/intgr/mysqlcompat/issues"
       },
       "repository": {
-        "url":  "git://github.com/intgr/mysqlcompat.git",
-        "web":  "https://github.com/intgr/mysqlcompat",
+        "url":  "git@github.com:2ndQuadrant/mysqlcompat.git",
+        "web":  "git@github.com:2ndQuadrant/mysqlcompat",
         "type": "git"
       }
    },
@@ -33,6 +33,7 @@
       "mysql",
       "compatibility",
       "conversion",
-      "functions"
+      "functions",
+      "2ndQuadrant"
    ]
 }

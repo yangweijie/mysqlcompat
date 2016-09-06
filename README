@@ -3,7 +3,7 @@ MySQL Compatibility Functions
 
 Authors: Chris Kings-Lynne, Gavin Sherry & Others
 Contributors: Michael Fuhr, Robert Treat, Marti Raudsepp
-Current maintainer: Marc Fournier
+Current maintainer: Marc G Fournier
 
 Introduction
 ------------
@@ -22,7 +22,7 @@ that rely heavily on certain MySQL functions.
 Versions of PostgreSQL supported
 --------------------------------
 
-This package has been tested on PostgreSQL 8.2.x through 9.2.x
+This package has been tested on PostgreSQL 8.2.x through 9.5.x
 
 Installation
 ------------
