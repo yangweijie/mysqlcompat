@@ -20,7 +20,7 @@
          "web": "https://github.com/2ndQuadrant/mysqlcompat/issues"
       },
       "repository": {
-        "url":  "git@github.com:2ndQuadrant/mysqlcompat.git",
+        "url":  "https://github.com/2ndQuadrant/mysqlcompat.git",
         "web":  "https://github.com/2ndQuadrant/mysqlcompat",
         "type": "git"
       }
