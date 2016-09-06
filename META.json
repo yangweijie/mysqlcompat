@@ -17,11 +17,11 @@
    },
    "resources": {
       "bugtracker": {
-         "web": "https://github.com/intgr/mysqlcompat/issues"
+         "web": "https://github.com/2ndQuadrant/mysqlcompat/issues"
       },
       "repository": {
         "url":  "git@github.com:2ndQuadrant/mysqlcompat.git",
-        "web":  "git@github.com:2ndQuadrant/mysqlcompat",
+        "web":  "https://github.com/2ndQuadrant/mysqlcompat",
         "type": "git"
       }
    },
