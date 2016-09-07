@@ -1,4 +1,4 @@
-\set ECHO 0
+\set ECHO none
 SELECT format(10000.01, 0);
  format 
 --------

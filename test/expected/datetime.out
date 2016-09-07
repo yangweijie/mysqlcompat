@@ -1,4 +1,4 @@
-\set ECHO 0
+\set ECHO none
 SELECT to_days('0001-01-01');
  to_days 
 ---------
