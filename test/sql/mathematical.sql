@@ -1,4 +1,4 @@
-\set ECHO 0
+\set ECHO none
 BEGIN;
 \i sql_bits/mathematical.sql
 \set ECHO all
