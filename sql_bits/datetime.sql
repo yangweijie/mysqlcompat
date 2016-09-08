@@ -257,16 +257,6 @@ $$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- XXXX UP TO HERE XXXX --
 
--- MONTH()
-CREATE OR REPLACE FUNCTION month(date)
-RETURNS integer AS $$
-  SELECT EXTRACT(MONTH FROM DATE($1))::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION month(timestamp without time zone)
-RETURNS integer AS $$
-  SELECT EXTRACT(MONTH FROM DATE($1))::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- MONTHNAME()
 CREATE OR REPLACE FUNCTION monthname(date)
@@ -738,24 +728,72 @@ RETURNS integer AS $$
   SELECT yearweek($1, 0);
 $$ IMMUTABLE STRICT LANGUAGE SQL;
 
+--
+-- is_datetime: used to determine if value passed to polymorphic 
+-- function is a valid date/time value
+--
+
+CREATE OR REPLACE FUNCTION is_datetime ( anyelement )
+RETURNS BOOLEAN AS $$
+DECLARE d date;
+        t TIMESTAMP;
+        tz TIMESTAMPTZ;
+BEGIN
+   d = $1::DATE;
+   RETURN TRUE;
+EXCEPTION WHEN others THEN
+        BEGIN
+           t = $1::TIMESTAMP;
+                RETURN TRUE;
+        EXCEPTION WHEN others THEN
+                BEGIN
+                        tz = $1::TIMESTAMPTZ;
+                        RETURN TRUE;
+                EXCEPTION WHEN others THEN
+                   RETURN FALSE;
+                END;
+        END;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+--
+-- Polymorphic functions to allow one function 
+-- to handle date / timestamp / timestamptz types
+--
+
 -- WEEKDAY()
-CREATE OR REPLACE FUNCTION weekday(date)
+CREATE OR REPLACE FUNCTION weekday( anyelement )
 RETURNS integer AS $$
-  SELECT CASE
-    WHEN EXTRACT(DOW FROM $1)::integer = 0 THEN
-      6
-    ELSE
-      EXTRACT(DOW FROM $1)::integer - 1
-    END
-$$ IMMUTABLE STRICT LANGUAGE SQL;
+BEGIN
+        IF is_datetime ( $1 ) THEN
+                CASE WHEN EXTRACT(DOW FROM $1)::integer = 0 THEN
+                        RETURN 6;
+                     ELSE
+                        RETURN EXTRACT(DOW FROM $1)::integer - 1;
+                END CASE;
+        END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
 
 -- YEAR()
-CREATE OR REPLACE FUNCTION year(date)
+CREATE OR REPLACE FUNCTION year( anyelement )
 RETURNS integer AS $$
-  SELECT EXTRACT(YEAR FROM $1)::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
+BEGIN
+        IF is_datetime ( $1 ) THEN
+                RETURN EXTRACT(YEAR FROM $1)::integer;
+        END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION year(timestamp without time zone)
+-- MONTH()
+CREATE OR REPLACE FUNCTION month( anyelement )
 RETURNS integer AS $$
-  SELECT EXTRACT(YEAR FROM $1)::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(MONTH FROM DATE($1))::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;

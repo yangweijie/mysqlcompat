@@ -2,7 +2,7 @@
    "name": "mysqlcompat",
    "abstract": "MySQL compatibility functions",
    "description": "A reimplemenation of as many MySQL functions as possible in PostgreSQL, as an aid to porting",
-   "version": "0.0.4",
+   "version": "0.0.5",
    "release_status": "stable",
 
    "maintainer": "Marc G Fournier <marc.fournier@2ndquadrant.com>",
@@ -12,7 +12,7 @@
       "mysqlcompat": {
          "abstract": "MySQL compatibility functions",
          "file": "all.sql",
-         "version": "0.0.4"
+         "version": "0.0.5"
       }
    },
    "resources": {
