@@ -138,24 +138,6 @@ RETURNS text AS $$
   SELECT pg_catalog.to_char($1, 'FMDay')
 $$ IMMUTABLE STRICT LANGUAGE SQL;
 
--- DAYOFMONTH()
-CREATE OR REPLACE FUNCTION dayofmonth(date)
-RETURNS integer AS $$
-  SELECT EXTRACT(DAY FROM DATE($1))::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- DAYOFWEEK()
-CREATE OR REPLACE FUNCTION dayofweek(date)
-RETURNS integer AS $$
-  SELECT EXTRACT(DOW FROM DATE($1))::integer + 1
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- DAYOFYEAR()
-CREATE OR REPLACE FUNCTION dayofyear(date)
-RETURNS integer AS $$
-  SELECT EXTRACT(DOY FROM DATE($1))::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
 -- FROM_DAYS()
 CREATE OR REPLACE FUNCTION from_days(integer)
 RETURNS date AS $$
@@ -793,6 +775,39 @@ RETURNS integer AS $$
 BEGIN
 	IF is_datetime ( $1 ) THEN
 		RETURN EXTRACT(MONTH FROM DATE($1))::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- DAYOFMONTH()
+CREATE OR REPLACE FUNCTION dayofmonth( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(DAY FROM DATE($1))::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- DAYOFWEEK()
+CREATE OR REPLACE FUNCTION dayofweek( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(DOW FROM DATE($1))::integer + 1;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- DAYOFYEAR()
+CREATE OR REPLACE FUNCTION dayofyear( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(DOY FROM DATE($1))::integer;
 	END IF;
 	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
 END;
