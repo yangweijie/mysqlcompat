@@ -261,35 +261,11 @@ RETURNS text AS $$
 $$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- FIELD()
-CREATE OR REPLACE FUNCTION field(text, text, text)
-RETURNS integer AS $$
-  SELECT CASE
-    WHEN $1 = $2 THEN 1
-    WHEN $1 = $3 THEN 2
-    ELSE 0
-  END 
-$$ IMMUTABLE LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION field(text, text, text, text)
-RETURNS integer AS $$
-  SELECT CASE
-    WHEN $1 = $2 THEN 1
-    WHEN $1 = $3 THEN 2
-    WHEN $1 = $4 THEN 3
-    ELSE 0
-  END 
-$$ IMMUTABLE LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION field(text, text, text, text, text)
-RETURNS integer AS $$
-  SELECT CASE
-    WHEN $1 = $2 THEN 1
-    WHEN $1 = $3 THEN 2
-    WHEN $1 = $4 THEN 3
-    WHEN $1 = $5 THEN 4
-    ELSE 0
-  END 
-$$ IMMUTABLE LANGUAGE SQL;
+CREATE OR REPLACE FUNCTION field(anyelement , VARIADIC anyarray ) RETURNS INTEGER AS $$
+	SELECT i
+	  FROM generate_subscripts($2, 1) AS i
+	 WHERE $2[i] IS NOT DISTINCT FROM $1
+$$ LANGUAGE SQL;
 
 -- FIND_IN_SET()
 CREATE OR REPLACE FUNCTION find_in_set(text, text)
