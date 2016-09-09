@@ -592,7 +592,7 @@ RETURNS integer AS $$
   END;
 $$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION _calc_week(qdate date, behavior integer)
+CREATE OR REPLACE FUNCTION _calc_week(qdate anyelement, behavior integer)
 RETURNS integer[] AS $$
   DECLARE
     _WEEK_MONDAY_FIRST  CONSTANT integer := 1;
@@ -639,22 +639,6 @@ RETURNS integer[] AS $$
     RETURN array[days / 7 + 1, qyear];
   END;
 $$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
-
-CREATE OR REPLACE FUNCTION week(date, integer)
-RETURNS integer AS $$
-  SELECT (_calc_week($1, _week_mode($2)))[1];
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION week(date)
-RETURNS integer AS $$
-  SELECT week($1, 0);
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- WEEKOFYEAR()
-CREATE OR REPLACE FUNCTION weekofyear(date)
-RETURNS integer AS $$
-  SELECT week($1, 3);
-$$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- YEARWEEK()
 CREATE OR REPLACE FUNCTION yearweek(qdate date, mode integer)
@@ -827,6 +811,37 @@ RETURNS integer AS $$
 BEGIN
 	IF is_datetime ( $1 ) THEN
 		RETURN EXTRACT(SECONDS FROM $1)::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION week( anyelement, integer )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN (_calc_week($1, _week_mode($2)))[1];
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION week( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN week($1, 0);
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- WEEKOFYEAR()
+CREATE OR REPLACE FUNCTION weekofyear( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN week($1, 3);
 	END IF;
 	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
 END;
