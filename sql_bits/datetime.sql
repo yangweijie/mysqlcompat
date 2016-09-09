@@ -187,14 +187,6 @@ RETURNS text AS $$
     END
 $$ IMMUTABLE STRICT LANGUAGE SQL;
 
--- HOUR()
--- Note: takes an interval instead of a time since MySQL's HOUR()
--- function deals with times like: '272:59:59'
-CREATE OR REPLACE FUNCTION hour(interval)
-RETURNS integer AS $$ 
-  SELECT EXTRACT (HOUR FROM $1)::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
 -- LAST_DAY()
 -- Note that for illegal timestamps this function raises an error,
 -- whereas under MySQL it returns NULL
@@ -223,22 +215,6 @@ CREATE OR REPLACE FUNCTION maketime(integer, integer, integer)
 RETURNS interval AS $$
   SELECT ($1 operator(pg_catalog.||) ':' operator(pg_catalog.||) $2 operator(pg_catalog.||) ':' operator(pg_catalog.||) $3)::interval
 $$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- MICROSECOND()
--- Timestamp version not implemented
-CREATE OR REPLACE FUNCTION microsecond(time)
-RETURNS integer AS $$
-  SELECT (EXTRACT(MICROSECONDS FROM $1))::integer % 1000000
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- MINUTE()
-CREATE OR REPLACE FUNCTION minute(time)
-RETURNS integer AS $$
-  SELECT EXTRACT(MINUTES FROM $1)::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- XXXX UP TO HERE XXXX --
-
 
 -- MONTHNAME()
 CREATE OR REPLACE FUNCTION monthname(date)
@@ -341,18 +317,6 @@ RETURNS integer AS $$
       RETURN months1 - months2;
   END
 $$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
-
--- QUARTER()
-CREATE OR REPLACE FUNCTION quarter(date)
-RETURNS integer AS $$
-  SELECT EXTRACT(QUARTER FROM DATE($1))::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
-
--- SECOND()
-CREATE OR REPLACE FUNCTION second(interval)
-RETURNS integer AS $$
-  SELECT EXTRACT(SECONDS FROM $1)::integer
-$$ IMMUTABLE STRICT LANGUAGE SQL;
 
 -- SEC_TO_TIME()
 CREATE OR REPLACE FUNCTION sec_to_time(bigint)
@@ -808,6 +772,61 @@ RETURNS integer AS $$
 BEGIN
 	IF is_datetime ( $1 ) THEN
 		RETURN EXTRACT(DOY FROM DATE($1))::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- HOUR()
+CREATE OR REPLACE FUNCTION hour( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT (HOUR FROM $1)::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- MICROSECOND()
+CREATE OR REPLACE FUNCTION microsecond( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN (EXTRACT(MICROSECONDS FROM $1))::integer % 1000000;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- MINUTE()
+CREATE OR REPLACE FUNCTION minute( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(MINUTES FROM $1)::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- QUARTER()
+CREATE OR REPLACE FUNCTION quarter( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(QUARTER FROM DATE($1))::integer;
+	END IF;
+	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
+END;
+$$ IMMUTABLE STRICT LANGUAGE PLPGSQL;
+
+-- SECOND()
+CREATE OR REPLACE FUNCTION second( anyelement )
+RETURNS integer AS $$
+BEGIN
+	IF is_datetime ( $1 ) THEN
+		RETURN EXTRACT(SECONDS FROM $1)::integer;
 	END IF;
 	RAISE EXCEPTION 'Invalid date / time value --> %', $1;
 END;
