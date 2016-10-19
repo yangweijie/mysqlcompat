@@ -5,9 +5,7 @@ Authors: Chris Kings-Lynne, Gavin Sherry & Others
 Contributors: Michael Fuhr, Robert Treat, Marti Raudsepp
 Current maintainer: Marc G Fournier
 
-Development of this extension is sponsored by 
-
-       2ndQuadrant <https://2ndquadrant.com>
+Development of this extension is sponsored by [2ndQuadrant](https://2ndquadrant.com)
 
 Introduction
 ------------
@@ -37,16 +35,16 @@ Then, a few of the functions are written in the PL/PgSQL
 language handler.  If you use these functions you need
 to install that handler, like this:
 
-  createlang plpgsql <dbname>
+    createlang plpgsql <dbname>
 
 Next, load any (or all) of the .sql files into that 
 database, eg:
  
-  psql -f all.sql <dbname>
+    psql -f all.sql <dbname>
 
 Or, to install a particular subset of functions:
 
-  psql -f sql_bits/datetime.sql <dbname>
+    psql -f sql_bits/datetime.sql <dbname>
 
 Or, if you only want to install a particular function, just
 copy and paste it into psql directly, taking care to install any
@@ -84,11 +82,15 @@ qualification.
 
 Here are some examples:
 
+```
 SELECT true && false;
 => f
+```
 
+```
 SELECT format(1234.432, 4);
 => 1,234.4320
+```
 
 General Compatibility Notes
 ---------------------------
@@ -120,8 +122,10 @@ This is just something you need to deal with during porting.
 
 Tip: PostgreSQL includes a boolean to integer explicit cast, eg:
 
+```
 SELECT true::integer + 1;
 => 2
+```
 
 * Time vs. Interval
 
@@ -137,11 +141,11 @@ this won't make any difference.
 
 In MySQL, intervals are not quoted, eg:
 
-  SELECT ADDDATE('1998-01-02', INTERVAL 31 DAY);
+    SELECT ADDDATE('1998-01-02', INTERVAL 31 DAY);
 
 In PostgreSQL the 31 DAY part needs to be quoted:
 
-  SELECT ADDDATE('1998-01-02', INTERVAL '31 DAY');
+    SELECT ADDDATE('1998-01-02', INTERVAL '31 DAY');
 
 * Missing operators
 
@@ -161,5 +165,5 @@ In some cases (due to the way PostgreSQL works) you will need
 to add explicit casts to some function calls.  An explicit cast
 looks like this:
 
-  SELECT ADDTIME('01:00:00.999999'::interval, '02:00:00.999998');
+    SELECT ADDTIME('01:00:00.999999'::interval, '02:00:00.999998');
 
