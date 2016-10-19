@@ -1,5 +1,5 @@
 # mysqlcompat extension
 comment = 'MySQL compatibility functions'
-default_version = '0.0.6'
+default_version = '0.0.7'
 module_pathname = '$libdir/mysqlcompat'
 relocatable = true

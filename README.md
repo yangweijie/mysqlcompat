@@ -1,11 +1,11 @@
 MySQL Compatibility Functions
 =============================
 
-```
 Authors: Chris Kings-Lynne, Gavin Sherry & Others
+
 Contributors: Michael Fuhr, Robert Treat, Marti Raudsepp
+
 Current maintainer: Marc G Fournier
-```
 
 Development of this extension is sponsored by [2ndQuadrant](https://2ndquadrant.com)
 
