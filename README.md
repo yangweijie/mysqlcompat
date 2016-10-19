@@ -1,9 +1,11 @@
 MySQL Compatibility Functions
 =============================
 
+```
 Authors: Chris Kings-Lynne, Gavin Sherry & Others
 Contributors: Michael Fuhr, Robert Treat, Marti Raudsepp
 Current maintainer: Marc G Fournier
+```
 
 Development of this extension is sponsored by [2ndQuadrant](https://2ndquadrant.com)
 
@@ -149,8 +151,7 @@ In PostgreSQL the 31 DAY part needs to be quoted:
 
 * Missing operators
 
-XOR, DIV and MOD named operators cannot be implemented.  Use
-#, / (with integer casts) and % instead.
+XOR, DIV and MOD named operators cannot be implemented.  Use #, / (with integer casts) and % instead.
 
 * Case-sensitive strings
 
