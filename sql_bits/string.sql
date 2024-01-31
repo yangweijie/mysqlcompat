@@ -274,24 +274,28 @@ CREATE OR REPLACE FUNCTION field(bigint, VARIADIC anyarray ) RETURNS INTEGER AS 
 $$ LANGUAGE SQL;
 
 -- FIND_IN_SET()
-CREATE OR REPLACE FUNCTION find_in_set(text, text)
-RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION find_in_set(anyelement, anyelement)
+RETURNS bool AS $$
   DECLARE
-    list text[];
+list text[];
     len integer;
-  BEGIN
-    IF $2 = '' THEN
-      RETURN 0;
-    END IF;
-    list := pg_catalog.string_to_array($2, ',');
+    find_string text;
+    target text;
+BEGIN
+    find_string := '' || $1;
+    target := '' || $2;
+    IF target = '' THEN
+      RETURN false;
+END IF;
+    list := pg_catalog.string_to_array(target, ',');
     len := pg_catalog.array_upper(list, 1);
-    FOR i IN 1..len LOOP
-      IF list[i] = $1 THEN
-        RETURN i;
-      END IF;
-    END LOOP;
-    RETURN 0;
-  END;
+FOR i IN 1..len LOOP
+      IF list[i] = find_string THEN
+        RETURN true;
+END IF;
+END LOOP;
+RETURN false;
+END;
 $$ STRICT IMMUTABLE LANGUAGE PLPGSQL;
 
 -- HEX()
